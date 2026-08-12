@@ -117,23 +117,42 @@ function Index() {
             >
               Contact
             </button>
-            <Button size="sm" className="gap-2">
-              <ShoppingBag className="h-4 w-4" />
-              <span>Cart ({cartCount})</span>
-            </Button>
+            <button
+              className="relative rounded-full p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              aria-label={`Cart with ${cartCount} items`}
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {cartCount > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                  {cartCount}
+                </span>
+              )}
+            </button>
           </nav>
 
-          <button
-            className="md:hidden"
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6 text-foreground" />
-            ) : (
-              <Menu className="h-6 w-6 text-foreground" />
-            )}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              className="relative rounded-full p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              aria-label={`Cart with ${cartCount} items`}
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {cartCount > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6 text-foreground" />
+              ) : (
+                <Menu className="h-6 w-6 text-foreground" />
+              )}
+            </button>
+          </div>
         </div>
 
         {mobileMenuOpen && (
@@ -157,10 +176,6 @@ function Index() {
               >
                 Contact
               </button>
-              <Button className="w-full gap-2">
-                <ShoppingBag className="h-4 w-4" />
-                <span>Cart ({cartCount})</span>
-              </Button>
             </div>
           </div>
         )}
@@ -275,8 +290,8 @@ function Index() {
                   </p>
                 </CardContent>
                 <CardFooter className="pt-0">
-                  <Button onClick={addToCart} className="w-full gap-2">
-                    <ShoppingBag className="h-4 w-4" />
+                  <Button onClick={() => addToCart(item.name)} className="w-full gap-2">
+                    <ShoppingCart className="h-4 w-4" />
                     Add to Cart
                   </Button>
                 </CardFooter>
