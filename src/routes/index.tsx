@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Coffee, Menu, X, ShoppingBag, Instagram, Facebook, Twitter } from "lucide-react";
+import { Coffee, Menu, X, ShoppingCart, Instagram, Facebook, Twitter } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -72,8 +73,9 @@ function Index() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
-  const addToCart = () => {
+  const addToCart = (itemName: string) => {
     setCartCount((prev) => prev + 1);
+    toast.success(`Added ${itemName} to cart! 🛒`);
   };
 
   const scrollTo = (id: string) => {
