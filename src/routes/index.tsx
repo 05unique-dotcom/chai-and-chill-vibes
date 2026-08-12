@@ -73,9 +73,9 @@ function Index() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
 
-  const addToCart = (itemName: string) => {
+  const addToCart = () => {
     setCartCount((prev) => prev + 1);
-    toast.success(`Added ${itemName} to cart! 🛒`);
+    toast.success("Added to cart! 🛒");
   };
 
   const scrollTo = (id: string) => {
@@ -290,7 +290,7 @@ function Index() {
                   </p>
                 </CardContent>
                 <CardFooter className="pt-0">
-                  <Button onClick={() => addToCart(item.name)} className="w-full gap-2">
+                  <Button onClick={addToCart} className="w-full gap-2">
                     <ShoppingCart className="h-4 w-4" />
                     Add to Cart
                   </Button>
