@@ -278,7 +278,7 @@ function Index() {
 
         {/* Animated floating elements */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute left-[10%] top-[18%] text-4xl opacity-20 animate-float sm:text-5xl">
+          <div className="absolute left-[10%] top-[18%] text-4xl opacity-20 animate-gentle-bounce sm:text-5xl">
             ☕
           </div>
           <div className="absolute right-[12%] top-[25%] text-3xl opacity-15 animate-float-slow sm:text-4xl">
@@ -287,9 +287,13 @@ function Index() {
           <div className="absolute bottom-[22%] left-[8%] text-3xl opacity-15 animate-float-slow sm:text-4xl">
             🌶️
           </div>
-          <div className="absolute bottom-[28%] right-[10%] text-4xl opacity-20 animate-float sm:text-5xl">
+          <div
+            className="absolute bottom-[28%] right-[10%] text-4xl opacity-20 animate-gentle-bounce sm:text-5xl"
+            style={{ animationDelay: "0.7s" }}
+          >
             🥟
           </div>
+
         </div>
 
         {/* Steam animation */}
