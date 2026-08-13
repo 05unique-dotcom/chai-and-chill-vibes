@@ -38,11 +38,14 @@ export const Route = createFileRoute("/")({
   }),
 });
 
+const IMG = "https://images.unsplash.com/";
+
 const menuItems = [
   {
     id: 1,
     name: "Cutting Chai",
     emoji: "☕",
+    image: `${IMG}photo-1571934811356-5cc061b6821f?w=800&q=80&auto=format&fit=crop`,
     description: "Strong Mumbai-style tea brewed with ginger, cardamom, and a whole lot of love.",
     price: 25,
   },
@@ -50,6 +53,7 @@ const menuItems = [
     id: 2,
     name: "Vada Pav",
     emoji: "🍔",
+    image: `${IMG}photo-1601050690597-df0568f70950?w=800&q=80&auto=format&fit=crop`,
     description: "Spicy potato fritter tucked inside a soft bun with chutneys and fried green chili.",
     price: 40,
   },
@@ -57,6 +61,7 @@ const menuItems = [
     id: 3,
     name: "Samosa",
     emoji: "🥟",
+    image: `${IMG}photo-1601050690117-94f5f6fa8bd7?w=800&q=80&auto=format&fit=crop`,
     description: "Crispy golden pastry filled with seasoned potatoes, peas, and aromatic spices.",
     price: 30,
   },
@@ -64,10 +69,76 @@ const menuItems = [
     id: 4,
     name: "Poha",
     emoji: "🍛",
+    image: `${IMG}photo-1589301760014-d929f3979dbc?w=800&q=80&auto=format&fit=crop`,
     description: "Light, fluffy flattened rice tempered with mustard seeds, peanuts, and curry leaves.",
     price: 50,
   },
 ];
+
+function useInView<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setInView(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, inView };
+}
+
+function MenuCard({ item, index, onAdd }: { item: (typeof menuItems)[number]; index: number; onAdd: () => void }) {
+  const { ref, inView } = useInView<HTMLDivElement>();
+
+  return (
+    <div
+      ref={ref}
+      className={inView ? "animate-fade-in-up opacity-100" : "opacity-0"}
+      style={{ animationDelay: `${index * 120}ms` }}
+    >
+      <Card className="group h-full overflow-hidden border-border/60 bg-card pt-0 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl">
+        <div className="relative h-44 w-full overflow-hidden">
+          <img
+            src={item.image}
+            alt={`${item.name} — Indian street food served at Chai & Chill`}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <span className="absolute left-3 top-3 flex h-10 w-10 items-center justify-center rounded-xl bg-background/85 text-xl backdrop-blur-sm">
+            {item.emoji}
+          </span>
+        </div>
+        <CardHeader className="pb-2">
+          <CardTitle className="font-display text-xl">{item.name}</CardTitle>
+          <CardDescription className="line-clamp-2">{item.description}</CardDescription>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <p className="font-display text-2xl font-bold text-primary">₹{item.price}</p>
+        </CardContent>
+        <CardFooter className="pt-0">
+          <Button type="button" onClick={onAdd} className="w-full gap-2">
+            <ShoppingCart className="h-4 w-4" />
+            Add to Cart
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}
+
 
 function Index() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
