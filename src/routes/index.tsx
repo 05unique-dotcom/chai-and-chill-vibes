@@ -338,6 +338,17 @@ function Index() {
         </div>
       </section>
 
+      {/* Special Offer Banner */}
+      <section className="bg-background px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <div className="animate-offer-blink rounded-2xl bg-gradient-to-r from-primary via-accent to-primary px-6 py-5 text-center">
+            <p className="font-display text-base font-bold text-primary-foreground sm:text-lg md:text-xl">
+              🔥 Today&apos;s Special: Buy 2 Vada Pav + 1 Chai = Only ₹90! Limited Time Offer ⏰
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Items Section */}
       <section id="menu" className="py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -354,34 +365,13 @@ function Index() {
           </div>
 
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {menuItems.map((item) => (
-              <Card
-                key={item.id}
-                className="group overflow-hidden border-border/60 bg-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
-              >
-                <CardHeader className="pb-2">
-                  <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary text-3xl transition-transform duration-300 group-hover:scale-110">
-                    {item.emoji}
-                  </div>
-                  <CardTitle className="font-display text-xl">{item.name}</CardTitle>
-                  <CardDescription className="line-clamp-2">{item.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <p className="font-display text-2xl font-bold text-primary">
-                    ₹{item.price}
-                  </p>
-                </CardContent>
-                <CardFooter className="pt-0">
-                  <Button onClick={addToCart} className="w-full gap-2">
-                    <ShoppingCart className="h-4 w-4" />
-                    Add to Cart
-                  </Button>
-                </CardFooter>
-              </Card>
+            {menuItems.map((item, index) => (
+              <MenuCard key={item.id} item={item} index={index} onAdd={addToCart} />
             ))}
           </div>
         </div>
       </section>
+
 
       {/* About Section */}
       <section id="about" className="relative overflow-hidden bg-secondary py-20 sm:py-28">
