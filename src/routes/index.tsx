@@ -1,6 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Coffee, Menu, X, ShoppingCart, Instagram, Facebook, Twitter } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import {
+  Coffee,
+  Menu,
+  X,
+  ShoppingCart,
+  Instagram,
+  Facebook,
+  Twitter,
+  Phone,
+  MapPin,
+  Clock,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
