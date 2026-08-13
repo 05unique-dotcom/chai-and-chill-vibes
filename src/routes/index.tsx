@@ -431,10 +431,77 @@ function Index() {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="border-t border-border/60 bg-background py-14">
+      {/* Contact Section */}
+      <section id="contact" className="border-t border-border/60 bg-background py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-sm font-semibold uppercase tracking-widest text-primary">
+              Get In Touch
+            </span>
+            <h2 className="mt-3 font-display text-3xl font-bold text-foreground sm:text-4xl md:text-5xl">
+              Come Say Hi (and Sip)
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-8 lg:grid-cols-2">
+            <div className="space-y-5">
+              <div className="flex items-start gap-4 rounded-2xl border border-border/60 bg-card p-5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+                  <Phone className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="font-display text-base font-semibold text-foreground">Phone</h3>
+                  <a
+                    href="tel:+912212345678"
+                    className="mt-1 block text-sm text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    +91 22 1234 5678
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 rounded-2xl border border-border/60 bg-card p-5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+                  <MapPin className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="font-display text-base font-semibold text-foreground">Address</h3>
+                  <address className="mt-1 not-italic text-sm leading-relaxed text-muted-foreground">
+                    42 Dadar Choppatty Lane, Mumbai
+                  </address>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 rounded-2xl border border-border/60 bg-card p-5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+                  <Clock className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="font-display text-base font-semibold text-foreground">Hours</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">Open daily · 7:00 AM – 11:00 PM</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border border-border/60 bg-secondary">
+              <iframe
+                title="Chai & Chill location map"
+                src="https://maps.google.com/maps?q=Dadar%20Chowpatty%20Mumbai&z=15&output=embed"
+                loading="lazy"
+                className="h-72 w-full border-0 lg:h-full lg:min-h-[22rem]"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border/60 bg-background py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 md:grid-cols-3">
             <div>
+
               <a href="/" className="flex items-center gap-2">
                 <Coffee className="h-6 w-6 text-primary" />
                 <span className="font-display text-xl font-bold text-foreground">Chai & Chill</span>
