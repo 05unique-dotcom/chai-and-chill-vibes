@@ -254,3 +254,31 @@
 @utility animate-fade-in-up {
   animation: fade-in-up 0.7s ease-out forwards;
 }
+
+@keyframes offer-blink {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 color-mix(in oklch, var(--color-primary) 60%, transparent);
+  }
+  50% {
+    opacity: 0.82;
+    box-shadow: 0 0 26px 4px color-mix(in oklch, var(--color-primary) 45%, transparent);
+  }
+}
+
+@keyframes gentle-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@utility animate-offer-blink {
+  animation: offer-blink 1.4s ease-in-out infinite;
+}
+
+@utility animate-gentle-bounce {
+  animation: gentle-bounce 2.2s ease-in-out infinite;
+}

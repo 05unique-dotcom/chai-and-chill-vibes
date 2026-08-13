@@ -1,6 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Coffee, Menu, X, ShoppingCart, Instagram, Facebook, Twitter } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import {
+  Coffee,
+  Menu,
+  X,
+  ShoppingCart,
+  Instagram,
+  Facebook,
+  Twitter,
+  Phone,
+  MapPin,
+  Clock,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -38,11 +49,14 @@ export const Route = createFileRoute("/")({
   }),
 });
 
+const IMG = "https://images.unsplash.com/";
+
 const menuItems = [
   {
     id: 1,
     name: "Cutting Chai",
     emoji: "☕",
+    image: `${IMG}photo-1571934811356-5cc061b6821f?w=800&q=80&auto=format&fit=crop`,
     description: "Strong Mumbai-style tea brewed with ginger, cardamom, and a whole lot of love.",
     price: 25,
   },
@@ -50,6 +64,7 @@ const menuItems = [
     id: 2,
     name: "Vada Pav",
     emoji: "🍔",
+    image: `${IMG}photo-1606491956689-2ea866880c84?w=800&q=80&auto=format&fit=crop`,
     description: "Spicy potato fritter tucked inside a soft bun with chutneys and fried green chili.",
     price: 40,
   },
@@ -57,6 +72,7 @@ const menuItems = [
     id: 3,
     name: "Samosa",
     emoji: "🥟",
+    image: `${IMG}photo-1601050690117-94f5f6fa8bd7?w=800&q=80&auto=format&fit=crop`,
     description: "Crispy golden pastry filled with seasoned potatoes, peas, and aromatic spices.",
     price: 30,
   },
@@ -64,10 +80,76 @@ const menuItems = [
     id: 4,
     name: "Poha",
     emoji: "🍛",
+    image: `${IMG}photo-1589301760014-d929f3979dbc?w=800&q=80&auto=format&fit=crop`,
     description: "Light, fluffy flattened rice tempered with mustard seeds, peanuts, and curry leaves.",
     price: 50,
   },
 ];
+
+function useInView<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setInView(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, inView };
+}
+
+function MenuCard({ item, index, onAdd }: { item: (typeof menuItems)[number]; index: number; onAdd: () => void }) {
+  const { ref, inView } = useInView<HTMLDivElement>();
+
+  return (
+    <div
+      ref={ref}
+      className={inView ? "animate-fade-in-up opacity-100" : "opacity-0"}
+      style={{ animationDelay: `${index * 120}ms` }}
+    >
+      <Card className="group h-full overflow-hidden border-border/60 bg-card pt-0 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl">
+        <div className="relative h-44 w-full overflow-hidden">
+          <img
+            src={item.image}
+            alt={`${item.name} — Indian street food served at Chai & Chill`}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <span className="absolute left-3 top-3 flex h-10 w-10 items-center justify-center rounded-xl bg-background/85 text-xl backdrop-blur-sm">
+            {item.emoji}
+          </span>
+        </div>
+        <CardHeader className="pb-2">
+          <CardTitle className="font-display text-xl">{item.name}</CardTitle>
+          <CardDescription className="line-clamp-2">{item.description}</CardDescription>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <p className="font-display text-2xl font-bold text-primary">₹{item.price}</p>
+        </CardContent>
+        <CardFooter className="pt-0">
+          <Button type="button" onClick={onAdd} className="w-full gap-2">
+            <ShoppingCart className="h-4 w-4" />
+            Add to Cart
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}
+
 
 function Index() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -196,7 +278,7 @@ function Index() {
 
         {/* Animated floating elements */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute left-[10%] top-[18%] text-4xl opacity-20 animate-float sm:text-5xl">
+          <div className="absolute left-[10%] top-[18%] text-4xl opacity-20 animate-gentle-bounce sm:text-5xl">
             ☕
           </div>
           <div className="absolute right-[12%] top-[25%] text-3xl opacity-15 animate-float-slow sm:text-4xl">
@@ -205,9 +287,13 @@ function Index() {
           <div className="absolute bottom-[22%] left-[8%] text-3xl opacity-15 animate-float-slow sm:text-4xl">
             🌶️
           </div>
-          <div className="absolute bottom-[28%] right-[10%] text-4xl opacity-20 animate-float sm:text-5xl">
+          <div
+            className="absolute bottom-[28%] right-[10%] text-4xl opacity-20 animate-gentle-bounce sm:text-5xl"
+            style={{ animationDelay: "0.7s" }}
+          >
             🥟
           </div>
+
         </div>
 
         {/* Steam animation */}
@@ -256,6 +342,17 @@ function Index() {
         </div>
       </section>
 
+      {/* Special Offer Banner */}
+      <section className="bg-background px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <div className="animate-offer-blink rounded-2xl bg-gradient-to-r from-primary via-accent to-primary px-6 py-5 text-center">
+            <p className="font-display text-base font-bold text-primary-foreground sm:text-lg md:text-xl">
+              🔥 Today&apos;s Special: Buy 2 Vada Pav + 1 Chai = Only ₹90! Limited Time Offer ⏰
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Items Section */}
       <section id="menu" className="py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -272,34 +369,13 @@ function Index() {
           </div>
 
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {menuItems.map((item) => (
-              <Card
-                key={item.id}
-                className="group overflow-hidden border-border/60 bg-card transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
-              >
-                <CardHeader className="pb-2">
-                  <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary text-3xl transition-transform duration-300 group-hover:scale-110">
-                    {item.emoji}
-                  </div>
-                  <CardTitle className="font-display text-xl">{item.name}</CardTitle>
-                  <CardDescription className="line-clamp-2">{item.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <p className="font-display text-2xl font-bold text-primary">
-                    ₹{item.price}
-                  </p>
-                </CardContent>
-                <CardFooter className="pt-0">
-                  <Button onClick={addToCart} className="w-full gap-2">
-                    <ShoppingCart className="h-4 w-4" />
-                    Add to Cart
-                  </Button>
-                </CardFooter>
-              </Card>
+            {menuItems.map((item, index) => (
+              <MenuCard key={item.id} item={item} index={index} onAdd={addToCart} />
             ))}
           </div>
         </div>
       </section>
+
 
       {/* About Section */}
       <section id="about" className="relative overflow-hidden bg-secondary py-20 sm:py-28">
@@ -355,10 +431,77 @@ function Index() {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="border-t border-border/60 bg-background py-14">
+      {/* Contact Section */}
+      <section id="contact" className="border-t border-border/60 bg-background py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-sm font-semibold uppercase tracking-widest text-primary">
+              Get In Touch
+            </span>
+            <h2 className="mt-3 font-display text-3xl font-bold text-foreground sm:text-4xl md:text-5xl">
+              Come Say Hi (and Sip)
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-8 lg:grid-cols-2">
+            <div className="space-y-5">
+              <div className="flex items-start gap-4 rounded-2xl border border-border/60 bg-card p-5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+                  <Phone className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="font-display text-base font-semibold text-foreground">Phone</h3>
+                  <a
+                    href="tel:+912212345678"
+                    className="mt-1 block text-sm text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    +91 22 1234 5678
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 rounded-2xl border border-border/60 bg-card p-5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+                  <MapPin className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="font-display text-base font-semibold text-foreground">Address</h3>
+                  <address className="mt-1 not-italic text-sm leading-relaxed text-muted-foreground">
+                    42 Dadar Choppatty Lane, Mumbai
+                  </address>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4 rounded-2xl border border-border/60 bg-card p-5">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary text-primary">
+                  <Clock className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="font-display text-base font-semibold text-foreground">Hours</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">Open daily · 7:00 AM – 11:00 PM</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border border-border/60 bg-secondary">
+              <iframe
+                title="Chai & Chill location map"
+                src="https://maps.google.com/maps?q=Dadar%20Chowpatty%20Mumbai&z=15&output=embed"
+                loading="lazy"
+                className="h-72 w-full border-0 lg:h-full lg:min-h-[22rem]"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border/60 bg-background py-14">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 md:grid-cols-3">
             <div>
+
               <a href="/" className="flex items-center gap-2">
                 <Coffee className="h-6 w-6 text-primary" />
                 <span className="font-display text-xl font-bold text-foreground">Chai & Chill</span>
