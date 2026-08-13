@@ -64,7 +64,7 @@ const menuItems = [
     id: 2,
     name: "Vada Pav",
     emoji: "🍔",
-    image: `${IMG}photo-1601050690597-df0568f70950?w=800&q=80&auto=format&fit=crop`,
+    image: `${IMG}photo-1606491956689-2ea866880c84?w=800&q=80&auto=format&fit=crop`,
     description: "Spicy potato fritter tucked inside a soft bun with chutneys and fried green chili.",
     price: 40,
   },
